@@ -55,7 +55,7 @@ class Sns_authorize extends CI_Controller {
                 		'Txweibo', // social_name
                			 $uid, // sn_user_id
                			 $info['data']['nick'], // sn_name
-               			 $info['data']['head'], // avatar url
+               			 $info['data']['head'].'/40', // avatar url
                			 $_SESSION['t_access_token'], // token1
               			 $_SESSION['t_openid'], // token2
                			 4, // default_stream_id, here douban diary

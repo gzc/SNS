@@ -57,7 +57,7 @@
                 
                 // item left
                 $result .= '<div class="item-left span2">';
-                $result .= '<div class="owner-avatar row-fluid"><img class="owner-avatar-img" src="' . $item['head'] . '"/></div>';
+                $result .= '<div class="owner-avatar row-fluid"><img class="owner-avatar-img" src="' . $item['head'] . '/40' . '"/></div>';
                 $result .= '<div class="owner-name row-fluid">' . $item['name'] . '</div>';
                 $result .= '</div>';
                 
@@ -80,7 +80,7 @@
                     $result .= '<div class="item-content">';
                 }
                 if (!empty($item['image']))
-                    $result .= '<div class="item-thumb"><img src="' . $item['image'] . '"/></div>'; 
+                    $result .= '<div class="item-thumb"><img src="' . $item['image'] . '/40' . '"/></div>'; 
                 //$result .= '<div class="item-title">' . $item['resource']['title'] . '</div>';
                 $result .= '<div class="item-message">' . $item['text'] . '</div>';
                 $result .= '<div class="item-attachment"></div>';
