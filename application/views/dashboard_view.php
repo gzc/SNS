@@ -80,7 +80,7 @@
                     $result .= '<div class="item-content">';
                 }
                 if (!empty($item['image']))
-                    $result .= '<div class="item-thumb"><img src="' . $item['image'] . '/40' . '"/></div>'; 
+                    $result .= '<div class="item-thumb"><img src="' . $item['image']['0'] . '/80' . '"/></div>'; 
                 //$result .= '<div class="item-title">' . $item['resource']['title'] . '</div>';
                 $result .= '<div class="item-message">' . $item['text'] . '</div>';
                 $result .= '<div class="item-attachment"></div>';
@@ -321,6 +321,38 @@
         function change_stream_list_width(width) {
             $("#streams-list").outerWidth(width);
         }
+        
+        function publish_status(){
+       		var arr = new Array();
+       		$("#status-sn-checklist").children().each(function(i,n){
+     			var obj = $(n).children("a.sn-checked");
+     			if(typeof(obj.attr("class")) != "undefined"){
+     				arr.push(obj.attr("id"));
+     			}
+    		});
+    		var nums = arr.join(',');
+       		
+       		$.post(
+                    "<?php echo base_url('ajax/publish_status'); ?>",
+                    {
+                        text: $("#status-textarea").val(),
+                        ids: nums
+                    },
+                    function(data, status) {
+                        if (data.errno == 0) {
+                            alert("发布成功");
+                            //$(dialog).dialog("close");
+                        }
+                        else {
+                        	alert(data.errmsg);
+                            //$("#update-password-modal").find(".error-message").html(data.errmsg);
+                        }
+                        
+                    },
+                    "json"
+                );
+   		}
+
 
     </script>
 
@@ -336,7 +368,7 @@
                         <div id="add-attachment">
                             <div id="add-photo" class="typcn typcn-location-outline icon-btn"></div>
                             <div id="add-photo" class="typcn typcn-camera-outline icon-btn"></div>
-                            <div id="publish-status-button" class="typcn typcn-media-play-outline icon-btn"></div>
+                            <div onclick="publish_status();" id="publish-status-button" class="typcn typcn-media-play-outline icon-btn"></div>
                         </div>
                         <div id="attachment-content"></div>
                     </div>
@@ -345,7 +377,7 @@
                     <ul id="status-sn-checklist" class="">
                         <?php foreach ($add_stream_options as $add_stream_option): ?>
                         <li>
-                            <a href="#" class="account-title sn-check-btn my-btn my-btn-outline">
+                            <a href="#" id=<?php echo $add_stream_option['account']->account_id; ?> class="account-title sn-check-btn my-btn my-btn-outline">
                                 <img src="<?php echo $add_stream_option['account']->avatar_url?>" />
                                 <?php echo $add_stream_option['account']->sn_name; ?>
                             </a>

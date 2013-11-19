@@ -27,6 +27,12 @@ class Account_model extends CI_Model {
         $query = $this->db->query($sql, array($user_id));
         return $query;
     }
+    
+    public function get_account($account_id) {
+        $sql = 'SELECT * FROM account WHERE account_id = ? LIMIT 1';
+        $query = $this->db->query($sql, array($account_id));
+        return $query;
+    }
 
     public function get_add_stream_options($user_id) {
         $result = array();

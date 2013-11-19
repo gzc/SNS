@@ -18,7 +18,7 @@ class Home extends CI_Controller {
         $this->load->library('renren_client');
         $renren_client = $this->renren_client->build(array('client_id' => APP_KEY, 'client_secret' => APP_SECRET));
         $this->auth_url['renren'] = $renren_client->getAuthorizeURL(CALLBACK_URL, 'code', '', '', true);
-
+		$this->auth_url['renren'] .= '&scope=publish_feed';
         $this->load->library('weibo_oauth', array(
             'client_id' => WB_AKEY, 
             'client_secret' => WB_SKEY

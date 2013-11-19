@@ -48,6 +48,77 @@ class Ajax extends CI_Controller {
         }
         echo '{"errno":0, "msg":"修改密码成功！"}';
     }
+    
+    public function publish_status() {
+    	//$text = $this->input->post('text');
+    	//$ids = $this->input->post('ids');
+    	$text = '测试';
+    	$ids = "22";
+    	
+    	$this->load->model('account_model');
+    	$arr = explode(',',$ids);
+    	
+    	foreach($arr as $aid){
+        	$query = $this->account_model->get_account($aid);
+        	if ($query->num_rows() > 0)
+			{
+   				foreach ($query->result() as $row)
+   				{
+      				$social_name = $row->social_name;
+      				$token1 = $row->token1;
+      				$token2 = $row->token2;
+      				$uid = $row->user_id;
+   				}
+			}
+		
+        	if($social_name == "Renren"){header("Content-type: text/html; charset=utf-8"); 
+        	
+        		$this->load->library('renren_client');
+            	$client = $this->renren_client->build(array(
+                'client_id' => APP_KEY,
+                'client_secret' => APP_SECRET
+            	));
+            	$t = unserialize($token1);
+            	$client->authWithToken($t);   	
+            	$result = $client->getStatusService()->putStatus($text);
+            	
+        	}else if($social_name == "Weibo"){
+        	
+        		$this->load->library('weibo_client');
+            	$client = $this->weibo_client->build(array(
+                'akey' => WB_AKEY,
+                'skey' => WB_SKEY, 
+                'access_token' => $token1)
+           		 );
+            	//$uid = $_SESSION['s_uid'];
+            	$result = $client->update($text); 
+            	
+
+        	}else if($social_name == "Txweibo"){
+        	
+        		OAuthTx::init(TX_AKEY, TX_SKEY);
+        		session_start();
+        		$_SESSION['t_access_token'] = $token1;
+				$_SESSION['t_openid'] = $token2;
+        		$params = array( 
+    				"format" => "json", 
+    				"content" => $text, 
+    				"clientip" => "59.78.3.113"
+    			);
+    			$r = Tencent::api('t/add',$params,"POST",false);
+    			$result = json_decode($r,true);
+    			
+    			if($result['errcode'] == 0){
+    				//SUCCESS
+    			}
+    			else {
+    				echo '{"errno":3, "errmsg":"腾讯微博服务器出错"}';
+    				return;
+    			}
+        	}
+        }
+    	echo '{"errno":0, "errmsg":""}';
+    }
 
     public function do_upload_avatar() {
         // file name to be changed in the library itself as user_{user_id}.jpg
