@@ -154,7 +154,7 @@ class Ajax extends CI_Controller {
         	session_start();
         	$params = array( 
     				"format" => "json", 
-    				"reqnum" => "3", 
+    				"reqnum" => "10", 
     				"startindex" => "0", 
     				"mode" => "0", 
     				"install" => "0", 
@@ -162,7 +162,10 @@ class Ajax extends CI_Controller {
     			);
     		$r = Tencent::api('friends/fanslist',$params,"GET",false);
     		$content['Txweibo_friends'] = json_decode($r,true);
-    		
+    		$r = Tencent::api('friends/idollist',$params,"GET",false);
+    		$content['Txweibo_idols'] = json_decode($r,true);
+    		$r = Tencent::api('friends/mutual_list',$params,"GET",false);
+    		$content['Txweibo_mutual'] = json_decode($r,true);
     		
     		$this->load->library('weibo_client');
             $client = $this->weibo_client->build(array(
@@ -172,8 +175,10 @@ class Ajax extends CI_Controller {
             );
             $uid = $_SESSION['s_uid'];
             $content['Weibo_friends'] = $client->bilateral( $uid, $page = 1, $count = 50, $sort = 0 ); 
+            $content['Weibo_fensi'] = $client->followers_by_id( $uid , $cursor = 0 , $count = 50);
+            $content['Weibo_guanzhu'] = $client->friends_by_id( $uid, $cursor = 0, $count = 50 );
             
-            
+            /*
             $this->load->library('renren_client');
             $client = $this->renren_client->build(array(
                 'client_id' => APP_KEY,
@@ -188,7 +193,7 @@ class Ajax extends CI_Controller {
             foreach($content['Renren_friends_num'] as $userId){
             	$info = $client->getUserService()->getUser($userId);
             	array_push($content['Renren_friends'],$info);
-            }
+            }*/
             
             $this->_escape_load_view('secondary/contacts_view',$content);
         }
