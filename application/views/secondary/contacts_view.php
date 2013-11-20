@@ -9,13 +9,76 @@
 	foreach($friends as $friend):?>
                                 <?php 
                             			echo '姓名:'.$friend['name'].'<br>';
-                            			$contentImage = genImage($friend['head'],'#');
+                            			$contentImage = genImage($friend['head'].'/50','#');
+                            			echo $contentImage;
                             			echo '状态:'.$friend['tweet']['0']['text'].'<br>';
                                     	
                                     	?>
 
                                 <br><br>
     <?php endforeach;?>
+</div>
+
+<div>我的腾讯微博偶像<br><br>
+	<?php $friends = $Txweibo_idols['data']['info'];
+	foreach($friends as $friend):?>
+                                <?php 
+                            			echo '姓名:'.$friend['name'].'<br>';
+                            			$contentImage = genImage($friend['head'].'/50','#');
+                            			echo $contentImage;
+                            			echo '状态:'.$friend['tweet']['0']['text'].'<br>';
+                                    	
+                                    	?>
+
+                                <br><br>
+    <?php endforeach;?>
+</div>
+
+<div>我的腾讯微博互相收听<br><br>
+	<?php $friends = $Txweibo_mutual['data']['info'];
+	if($friends != null){
+	foreach($friends as $friend):?>
+                                <?php 
+                            			echo '姓名:'.$friend['name'].'<br>';
+                            			$contentImage = genImage($friend['head'].'/50','#');
+                            			echo $contentImage;
+                            			echo '状态:'.$friend['tweet']['0']['text'].'<br>';
+                                    	
+                                    	?>
+
+                                <br><br>
+    <?php endforeach;}?>
+</div>
+
+
+<div>我的新浪微博粉丝<br><br>
+    <?php $friends = $Weibo_fensi['users'];
+    foreach($friends as $friend):?>
+                                <?php 
+                                	    $contentImage = genImage($friend['profile_image_url'],'#');
+                            			echo $contentImage;
+                                    	echo '姓名:'.$friend['name'].'<br>';
+                                    	echo '位置:'.$friend['location'].'<br>';
+                                		echo '状态:'.$friend['description'].'<br>';
+                                		
+                                    	?>
+								<br><br>
+    <?php endforeach;?>				
+</div>
+
+<div>我的新浪微博关注<br><br>
+    <?php $friends = $Weibo_guanzhu['users'];
+    foreach($friends as $friend):?>
+                                <?php 
+                                	    $contentImage = genImage($friend['profile_image_url'],'#');
+                            			echo $contentImage;
+                                    	echo '姓名:'.$friend['name'].'<br>';
+                                    	echo '位置:'.$friend['location'].'<br>';
+                                		echo '状态:'.$friend['description'].'<br>';
+                                		
+                                    	?>
+								<br><br>
+    <?php endforeach;?>				
 </div>
     
     
@@ -35,7 +98,7 @@
 </div>
 
 <div>我的人人好友<br><br>
-    <?php 
+    <?php  /*
     foreach($Renren_friends as $friend):?>
                                 <?php 
                                 		$imageurl = $friend['avatar'][0]['url'];
@@ -49,5 +112,5 @@
                                 		echo '位置:'.$province.' '.$city.'<br>';
                                     	?>
 								<br><br>
-    <?php endforeach;?>				
+    <?php endforeach; */ ?>				
 </div>
